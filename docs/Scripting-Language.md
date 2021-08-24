@@ -160,7 +160,7 @@ a valid script must start with >D in the first line
   `ssize` = optional max string size (default=19)  
   define and init variables here, must be the first section, no other code allowed  
   `p:vname`   
-  specifies permanent variables. The number of permanent variables is limited by Tasmota rules space (50 bytes) - numeric variables are 4 bytes; string variables are one byte longer than the length of string  
+  specifies permanent variables. The number of permanent variables is limited by Tasmota rules space (50 bytes) - numeric variables are 4 bytes; string variables are one byte longer than the length of string. p variables cannot be initialized in the >D section, but must be declared there. You can initialize permanent vars in the >B section. They will be stored and stay the same after power down. They can't be changed in any other section.  
   `t:vname`   
   specifies countdown timers, if >0 they are decremented in seconds until zero is reached. see example below  
   `i:vname`   
@@ -988,8 +988,8 @@ remark: the Flash illumination LED is connected to GPIO4
 
     >D
     ; define all vars here
-    p:mintmp=10  (p:means permanent)
-    p:maxtmp=30
+    p:mintmp=0  (p:means permanent)
+    p:maxtmp=0
     t:timer1=30  (t:means countdown timer)
     t:mt=0
     i:count=0  (i:means auto counter)
@@ -1022,6 +1022,8 @@ remark: the Flash illumination LED is connected to GPIO4
     m:array=0 10
 
     >B
+    mintmp=10
+    maxtmp=30
     string=hello+"how are you?"
     print BOOT executed
     print %hello%
